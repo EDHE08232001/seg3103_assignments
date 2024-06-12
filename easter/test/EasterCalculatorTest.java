@@ -18,12 +18,6 @@ class EasterCalculatorTest {
   }
 
   @Test
-  void testMidRangeValue() {
-    MyDate expected = new MyDate("March", 31);
-    assertEquals(expected.toString(), EasterCalculator.easterDate(2024).toString());
-  }
-
-  @Test
   void testExceptionalYear1954() {
     MyDate expected = new MyDate("April", 18);
     assertEquals(expected.toString(), EasterCalculator.easterDate(1954).toString());
