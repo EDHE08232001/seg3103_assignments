@@ -13,6 +13,11 @@ defmodule Grades.Calculator do
     0.2 * avg_labs + 0.3 * avg_homework + 0.2 * midterm + 0.3 * final
   end
 
+  # Additional Refactoring 1: Extracted method to count valid labs
+  def count_valid_labs(labs) do
+    Enum.count(Enum.reject(labs, &(&1 < 0.25)))
+  end
+
   # Helper method to return mark based on type and grade value
   def return_mark(mark, "letter") do
     cond do
@@ -83,13 +88,12 @@ defmodule Grades.Calculator do
     grade_calculation(grades, "numeric")
   end
 
-  # Additional refactoring: Private method to encapsulate grade calculation logic
+  # Additional Refactoring 2: Consolidated grade calculation logic
   defp grade_calculation(%{homework: homework, labs: labs, midterm: midterm, final: final}, type) do
     avg_homework = avg(homework)
     avg_labs = avg(labs)
     avg_exams = avg([midterm, final])
-    num_labs = Enum.count(Enum.reject(labs, &(&1 < 0.25)))
+    num_labs = count_valid_labs(labs)
     failed_to_participate(avg_homework, avg_exams, avg_labs, num_labs, midterm, final, type)
   end
 end
-
