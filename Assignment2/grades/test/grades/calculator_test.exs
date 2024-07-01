@@ -2,8 +2,8 @@ defmodule Grades.CalculatorTest do
   use ExUnit.Case
   alias Grades.Calculator
 
-  describe "percentage_grade/1" do
-    test "sample_tc1" do
+  describe "percentage_grade/1 function" do
+    test "tc1: calculates percentage grade with mixed inputs" do
       assert 85 ==
                Calculator.percentage_grade(%{
                  homework: [0.8],
@@ -12,10 +12,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.9
                })
     end
-  end
 
-  describe "percentage_grade/2" do
-    test "tc2" do
+    test "tc2: calculates percentage grade with empty homework and labs" do
       assert 39 ==
                Calculator.percentage_grade(%{
                  homework: [],
@@ -26,8 +24,8 @@ defmodule Grades.CalculatorTest do
     end
   end
 
-  describe "letter_grade/1" do
-    test "tc3" do
+  describe "letter_grade/1 function" do
+    test "tc3: calculates letter grade A+" do
       assert "A+" ==
                Calculator.letter_grade(%{
                  homework: [0.89, 0.90, 0.93],
@@ -36,10 +34,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.89
                })
     end
-  end
 
-  describe "letter_grade/2" do
-    test "tc4" do
+    test "tc4: calculates letter grade A" do
       assert "A" ==
                Calculator.letter_grade(%{
                  homework: [0.90, 0.90, 0.89],
@@ -48,10 +44,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.89
                })
     end
-  end
 
-  describe "letter_grade/3" do
-    test "tc5" do
+    test "tc5: calculates letter grade A-" do
       assert "A-" ==
                Calculator.letter_grade(%{
                  homework: [0.85, 0.83, 0.84],
@@ -60,10 +54,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.83
                })
     end
-  end
 
-  describe "letter_grade/4" do
-    test "tc6" do
+    test "tc6: calculates letter grade B+" do
       assert "B+" ==
                Calculator.letter_grade(%{
                  homework: [0.77, 0.75, 0.76],
@@ -72,10 +64,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.76
                })
     end
-  end
 
-  describe "letter_grade/5" do
-    test "tc7" do
+    test "tc7: calculates letter grade B" do
       assert "B" ==
                Calculator.letter_grade(%{
                  homework: [0.66, 0.79, 0.70],
@@ -84,10 +74,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.68
                })
     end
-  end
 
-  describe "letter_grade/6" do
-    test "tc8" do
+    test "tc8: calculates letter grade C+" do
       assert "C+" ==
                Calculator.letter_grade(%{
                 homework: [0.68, 0.63, 0.64],
@@ -96,10 +84,8 @@ defmodule Grades.CalculatorTest do
                 final: 0.67
                })
     end
-  end
 
-  describe "letter_grade/7" do
-    test "tc9" do
+    test "tc9: calculates letter grade C" do
       assert "C" ==
                Calculator.letter_grade(%{
                  homework: [0.66, 0.59, 0.64],
@@ -108,10 +94,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.67
                })
     end
-  end
 
-  describe "letter_grade/8" do
-    test "tc10" do
+    test "tc10: calculates letter grade D+" do
       assert "D+" ==
                Calculator.letter_grade(%{
                  homework: [0.58, 0.59, 0.55],
@@ -120,10 +104,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.56
                })
     end
-  end
 
-  describe "letter_grade/9" do
-    test "tc11" do
+    test "tc11: calculates letter grade D" do
       assert "D" ==
                Calculator.letter_grade(%{
                  homework: [0.50, 0.51, 0.50],
@@ -132,10 +114,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.50
                })
     end
-  end
 
-  describe "letter_grade/10" do
-    test "tc12" do
+    test "tc12: calculates letter grade E" do
       assert "E" ==
                Calculator.letter_grade(%{
                  homework: [0.44, 0.49, 0.42],
@@ -144,10 +124,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.44
                })
     end
-  end
 
-  describe "letter_grade/11" do
-    test "tc13" do
+    test "tc13: calculates letter grade F" do
       assert "F" ==
                Calculator.letter_grade(%{
                  homework: [0.40, 0.40, 0.40],
@@ -156,10 +134,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.40
                })
     end
-  end
 
-  describe "letter_grade/12" do
-    test "tc14" do
+    test "tc14: calculates letter grade EIN for insufficient participation" do
       assert "EIN" ==
                Calculator.letter_grade(%{
                  homework: [],
@@ -170,8 +146,8 @@ defmodule Grades.CalculatorTest do
     end
   end
 
-  describe "numeric_grade/1" do
-    test "tc15" do
+  describe "numeric_grade/1 function" do
+    test "tc15: calculates numeric grade 10" do
       assert 10 ==
                Calculator.numeric_grade(%{
                  homework: [0.89, 0.90, 0.93],
@@ -180,10 +156,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.89
                })
     end
-  end
 
-  describe "numeric_grade/2" do
-    test "tc16" do
+    test "tc16: calculates numeric grade 9" do
       assert 9 ==
                Calculator.numeric_grade(%{
                  homework: [0.90, 0.90, 0.89],
@@ -192,10 +166,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.89
                })
     end
-  end
 
-  describe "numeric_grade/3" do
-    test "tc17" do
+    test "tc17: calculates numeric grade 8" do
       assert 8 ==
                Calculator.numeric_grade(%{
                  homework: [0.85, 0.83, 0.84],
@@ -204,10 +176,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.83
                })
     end
-  end
 
-  describe "numeric_grade/4" do
-    test "tc18" do
+    test "tc18: calculates numeric grade 7" do
       assert 7 ==
                Calculator.numeric_grade(%{
                  homework: [0.77, 0.75, 0.76],
@@ -216,10 +186,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.76
                })
     end
-  end
 
-  describe "numeric_grade/5" do
-    test "tc19" do
+    test "tc19: calculates numeric grade 6" do
       assert 6 ==
                Calculator.numeric_grade(%{
                  homework: [0.66, 0.79, 0.70],
@@ -228,10 +196,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.68
                })
     end
-  end
 
-  describe "numeric_grade/6" do
-    test "tc20" do
+    test "tc20: calculates numeric grade 5" do
       assert 5 ==
                Calculator.numeric_grade(%{
                 homework: [0.68, 0.63, 0.64],
@@ -240,10 +206,8 @@ defmodule Grades.CalculatorTest do
                 final: 0.67
                })
     end
-  end
 
-  describe "numeric_grade/7" do
-    test "tc21" do
+    test "tc21: calculates numeric grade 4" do
       assert 4 ==
                Calculator.numeric_grade(%{
                  homework: [0.66, 0.59, 0.64],
@@ -252,10 +216,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.67
                })
     end
-  end
 
-  describe "numeric_grade/8" do
-    test "tc22" do
+    test "tc22: calculates numeric grade 3" do
       assert 3 ==
                Calculator.numeric_grade(%{
                  homework: [0.58, 0.59, 0.55],
@@ -264,10 +226,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.56
                })
     end
-  end
 
-  describe "numeric_grade/9" do
-    test "tc23" do
+    test "tc23: calculates numeric grade 2" do
       assert 2 ==
                Calculator.numeric_grade(%{
                  homework: [0.50, 0.51, 0.50],
@@ -276,10 +236,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.50
                })
     end
-  end
 
-  describe "numeric_grade/10" do
-    test "tc24" do
+    test "tc24: calculates numeric grade 1" do
       assert 1 ==
                Calculator.numeric_grade(%{
                  homework: [0.44, 0.49, 0.42],
@@ -288,10 +246,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.44
                })
     end
-  end
 
-  describe "numeric_grade/11" do
-    test "tc25" do
+    test "tc25: calculates numeric grade 0 for lowest performance" do
       assert 0 ==
                Calculator.numeric_grade(%{
                  homework: [0.40, 0.40, 0.40],
@@ -300,10 +256,8 @@ defmodule Grades.CalculatorTest do
                  final: 0.40
                })
     end
-  end
 
-  describe "numeric_grade/12" do
-    test "tc26" do
+    test "tc26: calculates numeric grade 0 for insufficient participation" do
       assert 0 ==
                Calculator.numeric_grade(%{
                  homework: [],
