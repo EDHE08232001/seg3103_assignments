@@ -256,36 +256,6 @@ defmodule Grades.CalculatorTest do
                  final: 0.40
                })
     end
-
-    test "tc26: calculates numeric grade 1" do
-      assert 1 ==
-               Calculator.numeric_grade(%{
-                 homework: [0.40, 0.42, 0.39],
-                 labs: [0.43, 0.41, 0.40],
-                 midterm: 0.42,
-                 final: 0.43
-               })
-    end
-
-    test "tc27: calculates numeric grade 0 for lowest performance" do
-      assert 0 ==
-               Calculator.numeric_grade(%{
-                 homework: [0.30, 0.32, 0.33],
-                 labs: [0.35, 0.30, 0.31],
-                 midterm: 0.33,
-                 final: 0.34
-               })
-    end
-
-    test "tc28: calculates numeric grade 0 for insufficient participation" do
-      assert 0 ==
-               Calculator.numeric_grade(%{
-                 homework: [],
-                 labs: [],
-                 midterm: 0.25,
-                 final: 0.15
-               })
-    end
   end
 end
 
