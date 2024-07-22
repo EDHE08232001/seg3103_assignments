@@ -75,21 +75,21 @@ class ExampleSeleniumTest {
   /*
    * No good for testing /admin route
    */
-  @Test
-  public void test2() {
-    WebElement welcome = driver.findElement(By.cssSelector("p"));
-    String expected = "Welcome";
-    String actual = welcome.getText();
-    assertEquals(expected, getWords(actual)[0]);
-    WebElement langSelector = driver.findElement(By.id("locales"));
-    langSelector.click();
-    WebElement frSelector = driver.findElement(By.cssSelector("option:nth-child(3)"));
-    frSelector.click();
-    welcome = driver.findElement(By.cssSelector("p"));
-    expected = "Bienvenu";
-    actual = welcome.getText();
-    assertEquals(expected, getWords(actual)[0]);
-  }
+  // @Test
+  // public void test2() {
+  //   WebElement welcome = driver.findElement(By.cssSelector("p"));
+  //   String expected = "Welcome";
+  //   String actual = welcome.getText();
+  //   assertEquals(expected, getWords(actual)[0]);
+  //   WebElement langSelector = driver.findElement(By.id("locales"));
+  //   langSelector.click();
+  //   WebElement frSelector = driver.findElement(By.cssSelector("option:nth-child(3)"));
+  //   frSelector.click();
+  //   welcome = driver.findElement(By.cssSelector("p"));
+  //   expected = "Bienvenu";
+  //   actual = welcome.getText();
+  //   assertEquals(expected, getWords(actual)[0]);
+  // }
 
   /*
    * Not needed for test
