@@ -48,6 +48,9 @@ class ExampleSeleniumTest {
     driver.close();
   }
 
+  /*
+   * clean cookies after each test
+  */
   @AfterEach
   public void cleanCookies() {
     driver.manage().deleteAllCookies();
