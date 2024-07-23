@@ -38,7 +38,7 @@ class ExampleSeleniumTest {
     // driver = new ChromeDriver();
 
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // Update this line
-    driver.get("http://localhost:8080/");
+    driver.get("http://localhost:8080/admin");
     // wait to make sure Selenium is done loading the page
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60)); // Update this line
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("title")));
@@ -62,177 +62,162 @@ class ExampleSeleniumTest {
     server.destroy();
   }
 
-  @Test
-  void test1() {
-    WebElement element = driver.findElement(By.id("title"));
-    String expected = "YAMAZONE BookStore";
-    String actual = element.getText();
-    assertEquals(expected, actual);
-  }
-
-  @Test
-  public void test2() {
-    WebElement welcome = driver.findElement(By.cssSelector("p"));
-    String expected = "Welcome";
-    String actual = welcome.getText();
-    assertEquals(expected, getWords(actual)[0]);
-
-    // Debugging: Print initial welcome message
-    System.out.println("Initial welcome message: " + actual);
-
-    WebElement langSelector = driver.findElement(By.id("locales"));
-    langSelector.click();
-    WebElement frSelector = driver.findElement(By.cssSelector("option:nth-child(3)"));
-    frSelector.click();
-
-    // Wait for the language change to take effect
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("p"), "Bienvenu"));
-
-    welcome = driver.findElement(By.cssSelector("p"));
-    expected = "Bienvenu";
-    actual = welcome.getText();
-
-    // Debugging: Print updated welcome message
-    System.out.println("Updated welcome message: " + actual);
-
-    assertEquals(expected, getWords(actual)[0]);
-  }
-
-  private String[] getWords(String s) {
-    return s.split("\\s+");
-  }
-
-  // /*
-  // * Use Case: Admin Login
-  // */
   // @Test
-  // public void adminLogin() {
-  // // Login Action
-  // WebElement usernameField =
-  // driver.findElement(By.xpath("//*[@id=\"loginId\"]"));
-  // WebElement passwordField =
-  // driver.findElement(By.xpath("//*[@id=\"loginPasswd\"]"));
-
-  // usernameField.sendKeys(username);
-  // passwordField.sendKeys(password);
-
-  // WebElement loginButton =
-  // driver.findElement(By.xpath("//*[@id=\"loginBtn\"]"));
-  // loginButton.click();
-
-  // // wait
-  // WebDriverWait wait = new WebDriverWait(driver, 15);
-  // wait.until(
-  // ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"addBook-form\"]/table/tbody/tr[1]/td[1]")));
-
-  // // Look for an unique element to verify the success of login
-  // boolean elementExists;
-  // try {
-  // WebElement element =
-  // driver.findElement(By.xpath("//*[@id=\"addBook-form\"]/table/tbody/tr[1]/td[1]"));
-  // elementExists = true;
-  // } catch (org.openqa.selenium.NoSuchElementException e) {
-  // elementExists = false;
-  // }
-  // assertTrue(elementExists, "The element with ID 'addBook-category' should
-  // exist.");
+  // void test1() {
+  // WebElement element = driver.findElement(By.id("title"));
+  // String expected = "YAMAZONE BookStore";
+  // String actual = element.getText();
+  // assertEquals(expected, actual);
   // }
 
-  // /*
-  // * Use Case Admin Log Out
-  // */
-  // public void adminLogout() {
-  // // Login Action
-  // WebElement usernameField =
-  // driver.findElement(By.xpath("//*[@id=\"loginId\"]"));
-  // WebElement passwordField =
-  // driver.findElement(By.xpath("//*[@id=\"loginPasswd\"]"));
+  // @Test
+  // public void test2() {
+  // WebElement welcome = driver.findElement(By.cssSelector("p"));
+  // String expected = "Welcome";
+  // String actual = welcome.getText();
+  // assertEquals(expected, getWords(actual)[0]);
 
-  // usernameField.sendKeys(username);
-  // passwordField.sendKeys(password);
+  // // Debugging: Print initial welcome message
+  // System.out.println("Initial welcome message: " + actual);
 
-  // WebElement loginButton =
-  // driver.findElement(By.xpath("//*[@id=\"loginBtn\"]"));
-  // loginButton.click();
+  // WebElement langSelector = driver.findElement(By.id("locales"));
+  // langSelector.click();
+  // WebElement frSelector =
+  // driver.findElement(By.cssSelector("option:nth-child(3)"));
+  // frSelector.click();
 
-  // // wait
-  // WebDriverWait wait = new WebDriverWait(driver, 15);
-  // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[2]/form[2]/input")));
+  // // Wait for the language change to take effect
+  // WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+  // wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("p"),
+  // "Bienvenu"));
 
-  // // Log out
-  // WebElement logoutButton =
-  // driver.findElement(By.xpath("/html/body/div/div[2]/form[2]/input"));
-  // logoutButton.click();
+  // welcome = driver.findElement(By.cssSelector("p"));
+  // expected = "Bienvenu";
+  // actual = welcome.getText();
 
-  // // wait
-  // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"loginBtn\"]")));
+  // // Debugging: Print updated welcome message
+  // System.out.println("Updated welcome message: " + actual);
 
-  // // Verify Logout Using Login Button
-  // boolean elementExists;
-  // try {
-  // WebElement element = driver.findElement(By.xpath("//*[@id=\"loginBtn\"]"));
-  // elementExists = true;
-  // } catch (org.openqa.selenium.NoSuchElementException e) {
-  // elementExists = false;
-  // }
-  // assertTrue(elementExists, "The element with ID 'loginBtn' should exist.");
+  // assertEquals(expected, getWords(actual)[0]);
   // }
 
-  // /*
-  // * Use Case: Add Book
-  // */
-  // public void addBook() {
-  // // Login Action
-  // WebElement usernameField =
-  // driver.findElement(By.xpath("//*[@id=\"loginId\"]"));
-  // WebElement passwordField =
-  // driver.findElement(By.xpath("//*[@id=\"loginPasswd\"]"));
-
-  // usernameField.sendKeys(username);
-  // passwordField.sendKeys(password);
-
-  // WebElement loginButton =
-  // driver.findElement(By.xpath("//*[@id=\"loginBtn\"]"));
-  // loginButton.click();
-
-  // // wait
-  // WebDriverWait wait = new WebDriverWait(driver, 15);
-  // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"addBook-category\"]")));
-
-  // // Add Book Action
-  // WebElement categoryField =
-  // driver.findElement(By.xpath("//*[@id=\"addBook-category\"]"));
-  // WebElement bookIdField =
-  // driver.findElement(By.xpath("//*[@id=\"addBook-id\"]"));
-  // WebElement titleField =
-  // driver.findElement(By.xpath("//*[@id=\"addBook-title\"]"));
-  // WebElement authorField =
-  // driver.findElement(By.xpath("//*[@id=\"addBook-authors\"]"));
-  // WebElement costField = driver.findElement(By.xpath("//*[@id=\"cost\"]"));
-
-  // categoryField.sendKeys("Education");
-  // bookIdField.sendKeys("082356");
-  // titleField.sendKeys("Programming Pro");
-  // authorField.sendKeys("Dow Jones");
-  // costField.sendKeys("10");
-
-  // WebElement addButton =
-  // driver.findElement(By.xpath("//*[@id=\"addBook-form\"]/button"));
-  // addButton.click();
-
-  // // wait
-  // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"feedback\"]/h2")));
-
-  // // Verify Add Book Action by checking if the success message pops up
-  // boolean elementExists;
-  // try {
-  // WebElement element =
-  // driver.findElement(By.xpath("//*[@id=\"feedback\"]/h2"));
-  // elementExists = true;
-  // } catch (org.openqa.selenium.NoSuchElementException e) {
-  // elementExists = false;
+  // private String[] getWords(String s) {
+  // return s.split("\\s+");
   // }
-  // assertTrue(elementExists, "The element with ID 'feedback' should exist.");
-  // }
+
+  /*
+   * Use Case: Admin Login
+   */
+  @Test
+  public void adminLogin() {
+    // Login Action
+    WebElement usernameField = driver.findElement(By.id("loginId"));
+    WebElement passwordField = driver.findElement(By.id("loginPasswd"));
+
+    usernameField.sendKeys(username);
+    passwordField.sendKeys(password);
+
+    WebElement loginButton = driver.findElement(By.id("loginBtn"));
+    loginButton.click();
+
+    // wait
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    wait.until(
+        ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"addBook-form\"]/table/tbody/tr[1]/td[1]")));
+
+    // Look for a unique element to verify the success of login
+    boolean elementExists;
+    try {
+      WebElement element = driver.findElement(By.xpath("//*[@id=\"addBook-form\"]/table/tbody/tr[1]/td[1]"));
+      elementExists = true;
+    } catch (org.openqa.selenium.NoSuchElementException e) {
+      elementExists = false;
+    }
+    assertTrue(elementExists, "The element with ID 'addBook-category' should exist.");
+  }
+
+  /*
+   * Use Case Admin Log Out
+   */
+  public void adminLogout() {
+    // Login Action
+    WebElement usernameField = driver.findElement(By.id("loginId"));
+    WebElement passwordField = driver.findElement(By.id("loginPasswd"));
+
+    usernameField.sendKeys(username);
+    passwordField.sendKeys(password);
+
+    WebElement loginButton = driver.findElement(By.id("loginBtn"));
+    loginButton.click();
+
+    // wait
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[2]/form[2]/input")));
+
+    // Log out
+    WebElement logoutButton = driver.findElement(By.xpath("/html/body/div/div[2]/form[2]/input"));
+    logoutButton.click();
+
+    // wait
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"loginBtn\"]")));
+
+    // Verify Logout Using Login Button
+    boolean elementExists;
+    try {
+      WebElement element = driver.findElement(By.xpath("//*[@id=\"loginBtn\"]"));
+      elementExists = true;
+    } catch (org.openqa.selenium.NoSuchElementException e) {
+      elementExists = false;
+    }
+    assertTrue(elementExists, "The element with ID 'loginBtn' should exist.");
+  }
+
+  /*
+   * Use Case: Add Book
+   */
+  @Test
+  public void addBook() {
+    // Login Action
+    WebElement usernameField = driver.findElement(By.id("loginId"));
+    WebElement passwordField = driver.findElement(By.id("loginPasswd"));
+
+    usernameField.sendKeys(username);
+    passwordField.sendKeys(password);
+
+    WebElement loginButton = driver.findElement(By.id("loginBtn"));
+    loginButton.click();
+
+    // wait
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"addBook-category\"]")));
+
+    // Add Book Action
+    WebElement categoryField = driver.findElement(By.xpath("//*[@id=\"addBook-category\"]"));
+    WebElement bookIdField = driver.findElement(By.xpath("//*[@id=\"addBook-id\"]"));
+    WebElement titleField = driver.findElement(By.xpath("//*[@id=\"addBook-title\"]"));
+    WebElement authorField = driver.findElement(By.xpath("//*[@id=\"addBook-authors\"]"));
+    WebElement costField = driver.findElement(By.xpath("//*[@id=\"cost\"]"));
+
+    categoryField.sendKeys("Education");
+    bookIdField.sendKeys("082356");
+    titleField.sendKeys("Programming Pro");
+    authorField.sendKeys("Dow Jones");
+    costField.sendKeys("10");
+
+    WebElement addButton = driver.findElement(By.xpath("//*[@id=\"addBook-form\"]/button"));
+    addButton.click();
+
+    // wait
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"feedback\"]/h2")));
+
+    // Verify Add Book Action by checking if the success message pops up
+    boolean elementExists;
+    try {
+      WebElement element = driver.findElement(By.xpath("//*[@id=\"feedback\"]/h2"));
+      elementExists = true;
+    } catch (org.openqa.selenium.NoSuchElementException e) {
+      elementExists = false;
+    }
+    assertTrue(elementExists, "The element with ID 'feedback' should exist.");
+  }
 }
