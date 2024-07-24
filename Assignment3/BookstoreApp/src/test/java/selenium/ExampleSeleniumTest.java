@@ -140,6 +140,7 @@ class ExampleSeleniumTest {
   /*
    * Use Case Admin Log Out
    */
+  @Test
   public void adminLogout() {
     // Login Action
     WebElement usernameField = driver.findElement(By.id("loginId"));
