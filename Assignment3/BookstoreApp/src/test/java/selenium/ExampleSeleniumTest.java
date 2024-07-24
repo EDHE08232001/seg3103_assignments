@@ -313,7 +313,7 @@ class ExampleSeleniumTest {
   }
 
   /*
-   * Order Test Negative
+   * Search Test Negative
    */
   @Test
   public void testSearchCategoryNegative() {
