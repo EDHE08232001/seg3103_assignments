@@ -138,6 +138,35 @@ class ExampleSeleniumTest {
   }
 
   /*
+   * Login Fail
+   */
+  @Test
+  public void adminLoginNegative() {
+    // Login Action with incorrect password
+    WebElement usernameField = driver.findElement(By.id("loginId"));
+    WebElement passwordField = driver.findElement(By.id("loginPasswd"));
+
+    usernameField.sendKeys(username);
+    passwordField.sendKeys("1234"); // Incorrect password
+
+    WebElement loginButton = driver.findElement(By.id("loginBtn"));
+    loginButton.click();
+
+    // wait
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+    // Look for the login button to verify the failure of login
+    boolean loginButtonExists;
+    try {
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loginBtn")));
+      loginButtonExists = true;
+    } catch (org.openqa.selenium.NoSuchElementException e) {
+      loginButtonExists = false;
+    }
+    assertTrue(loginButtonExists, "The login button should still exist indicating login failure.");
+  }
+
+  /*
    * Use Case Admin Log Out
    */
   @Test
