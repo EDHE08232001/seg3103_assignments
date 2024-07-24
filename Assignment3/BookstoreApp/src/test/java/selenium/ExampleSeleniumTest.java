@@ -311,4 +311,23 @@ class ExampleSeleniumTest {
     // Assert that the number of books added to the cart is 1
     assertEquals("1", quantity);
   }
+
+  /*
+   * Order Test Negative
+   */
+  @Test
+  public void testSearchCategoryNegative() {
+    driver.get("http://localhost:8080");
+    driver.findElement(By.id("search")).sendKeys("Unknown Category");
+    driver.findElement(By.id("searchBtn")).click();
+
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebElement messageElement = wait
+        .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[3]/h1")));
+    String messageText = messageElement.getText();
+
+    String expectedMessage = "Sorry we do not have any item matching category 'Unknown Category' at this moment";
+    assertEquals(expectedMessage, messageText);
+  }
+
 }
