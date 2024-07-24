@@ -328,8 +328,7 @@ class ExampleSeleniumTest {
     addButton.click();
 
     // Go to cart
-    WebElement cartButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("cartLink"))); // Note the
-                                                                                                    // corrected case
+    WebElement cartButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("cartLink")));
     cartButton.click();
 
     // Extract the number of books added to the cart
@@ -357,6 +356,43 @@ class ExampleSeleniumTest {
 
     String expectedMessage = "Sorry we do not have any item matching category 'Unknown Category' at this moment";
     assertEquals(expectedMessage, messageText);
+  }
+
+  /*
+   * Update Order Test
+   */
+  @Test
+  public void testUpdateOrder() {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+    // Search book
+    driver.get("http://localhost:8080");
+    wait.until(ExpectedConditions.elementToBeClickable(By.id("search")));
+    driver.findElement(By.id("search")).sendKeys("");
+    driver.findElement(By.id("searchBtn")).click();
+
+    // Add book to cart
+    WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("order-hall001")));
+    addButton.click();
+
+    // Go to cart
+    WebElement cartButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("cartLink")));
+    cartButton.click();
+
+    // Update Order
+    WebElement quantityField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("hall001")));
+    quantityField.clear();
+    quantityField.sendKeys("2");
+
+    WebElement updateButton = driver.findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr/td[4]/button"));
+    updateButton.click();
+
+    // Verify the total cost is doubled
+    WebElement totalCostElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tothall001")));
+    String totalCostText = totalCostElement.getText();
+    String expectedTotalCost = "$79.90";
+    assertEquals(expectedTotalCost, totalCostText,
+        "The total cost should be doubled after updating the quantity to 2.");
   }
 
 }
