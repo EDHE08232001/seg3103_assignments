@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: selenium.ExampleSeleniumTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.342 s - in selenium.ExampleSeleniumTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.637 s - in selenium.ExampleSeleniumTest
