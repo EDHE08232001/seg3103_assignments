@@ -1,3 +1,7 @@
+/*
+ * Code is tested on Safari browser
+*/
+
 package selenium;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,92 +30,109 @@ class ExampleSeleniumTest {
 
   @BeforeAll
   public static void setUpBeforeClass() throws Exception {
+    // Start the server process for the bookstore application
     ProcessBuilder pb = new ProcessBuilder("java", "-jar", "bookstore5.jar");
     server = pb.start();
   }
 
   @BeforeEach
   void setUp() {
-    // Pick your browser
+    // Initialize the WebDriver (Safari in this case)
     // driver = new FirefoxDriver();
     driver = new SafariDriver();
     // WebDriverManager.chromedriver().setup();
     // driver = new ChromeDriver();
 
-    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // Update this line
+    // Set implicit wait time
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     driver.get("http://localhost:8080/admin");
-    // wait to make sure Selenium is done loading the page
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60)); // Update this line
+
+    // Explicit wait to ensure the page is fully loaded
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("title")));
   }
 
   @AfterEach
   public void tearDown() {
+    // Close the WebDriver instance
     driver.close();
   }
 
   /*
-   * clean cookies after each test
+   * Clean cookies after each test
    */
   @AfterEach
   public void cleanCookies() {
+    // Delete all cookies
     driver.manage().deleteAllCookies();
   }
 
   @AfterAll
   public static void tearDownAfterClass() throws Exception {
+    // Destroy the server process after all tests are done
     server.destroy();
   }
 
-  // @Test
-  // void test1() {
-  // WebElement element = driver.findElement(By.id("title"));
-  // String expected = "YAMAZONE BookStore";
-  // String actual = element.getText();
-  // assertEquals(expected, actual);
-  // }
+  /*
+   * Title Test
+   */
+  @Test
+  void test1() {
+    // Test to check the title of the home page
+    driver.get("http://localhost:8080");
+    WebElement element = driver.findElement(By.id("title"));
+    String expected = "YAMAZONE BookStore";
+    String actual = element.getText();
+    assertEquals(expected, actual);
+  }
 
-  // @Test
-  // public void test2() {
-  // WebElement welcome = driver.findElement(By.cssSelector("p"));
-  // String expected = "Welcome";
-  // String actual = welcome.getText();
-  // assertEquals(expected, getWords(actual)[0]);
+  /*
+   * Change language test
+   */
+  @Test
+  public void test2() {
+    // Test to change the language of the home page
+    driver.get("http://localhost:8080");
+    WebElement welcome = driver.findElement(By.cssSelector("p"));
+    String expected = "Welcome";
+    String actual = welcome.getText();
+    assertEquals(expected, getWords(actual)[0]);
 
-  // // Debugging: Print initial welcome message
-  // System.out.println("Initial welcome message: " + actual);
+    // Debugging: Print initial welcome message
+    System.out.println("Initial welcome message: " + actual);
 
-  // WebElement langSelector = driver.findElement(By.id("locales"));
-  // langSelector.click();
-  // WebElement frSelector =
-  // driver.findElement(By.cssSelector("option:nth-child(3)"));
-  // frSelector.click();
+    // Change language to French
+    WebElement langSelector = driver.findElement(By.id("locales"));
+    langSelector.click();
+    WebElement frSelector = driver.findElement(By.cssSelector("option:nth-child(3)"));
+    frSelector.click();
 
-  // // Wait for the language change to take effect
-  // WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-  // wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("p"),
-  // "Bienvenu"));
+    // Wait for the language change to take effect
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector("p"), "Bienvenu"));
 
-  // welcome = driver.findElement(By.cssSelector("p"));
-  // expected = "Bienvenu";
-  // actual = welcome.getText();
+    // Verify the language change
+    welcome = driver.findElement(By.cssSelector("p"));
+    expected = "Bienvenu";
+    actual = welcome.getText();
 
-  // // Debugging: Print updated welcome message
-  // System.out.println("Updated welcome message: " + actual);
+    // Debugging: Print updated welcome message
+    System.out.println("Updated welcome message: " + actual);
 
-  // assertEquals(expected, getWords(actual)[0]);
-  // }
+    assertEquals(expected, getWords(actual)[0]);
+  }
 
-  // private String[] getWords(String s) {
-  // return s.split("\\s+");
-  // }
+  private String[] getWords(String s) {
+    // Helper method to split a string into words
+    return s.split("\\s+");
+  }
 
   /*
    * Use Case: Admin Login
    */
   @Test
   public void adminLogin() {
-    // Login Action
+    // Test to log in as admin
     WebElement usernameField = driver.findElement(By.id("loginId"));
     WebElement passwordField = driver.findElement(By.id("loginPasswd"));
 
@@ -121,12 +142,12 @@ class ExampleSeleniumTest {
     WebElement loginButton = driver.findElement(By.id("loginBtn"));
     loginButton.click();
 
-    // wait
+    // Wait for login to complete
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     wait.until(
         ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"addBook-form\"]/table/tbody/tr[1]/td[1]")));
 
-    // Look for a unique element to verify the success of login
+    // Verify login success by checking the presence of a specific element
     boolean elementExists;
     try {
       WebElement element = driver.findElement(By.xpath("//*[@id=\"addBook-form\"]/table/tbody/tr[1]/td[1]"));
@@ -142,7 +163,7 @@ class ExampleSeleniumTest {
    */
   @Test
   public void adminLoginNegative() {
-    // Login Action with incorrect password
+    // Test to check login failure with incorrect password
     WebElement usernameField = driver.findElement(By.id("loginId"));
     WebElement passwordField = driver.findElement(By.id("loginPasswd"));
 
@@ -152,10 +173,10 @@ class ExampleSeleniumTest {
     WebElement loginButton = driver.findElement(By.id("loginBtn"));
     loginButton.click();
 
-    // wait
+    // Wait for login failure to be confirmed
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    // Look for the login button to verify the failure of login
+    // Verify the login button is still present, indicating login failure
     boolean loginButtonExists;
     try {
       wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loginBtn")));
@@ -171,7 +192,7 @@ class ExampleSeleniumTest {
    */
   @Test
   public void adminLogout() {
-    // Login Action
+    // Test to log in and then log out as admin
     WebElement usernameField = driver.findElement(By.id("loginId"));
     WebElement passwordField = driver.findElement(By.id("loginPasswd"));
 
@@ -181,7 +202,7 @@ class ExampleSeleniumTest {
     WebElement loginButton = driver.findElement(By.id("loginBtn"));
     loginButton.click();
 
-    // wait
+    // Wait for login to complete
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[2]/form[2]/input")));
 
@@ -189,10 +210,10 @@ class ExampleSeleniumTest {
     WebElement logoutButton = driver.findElement(By.xpath("/html/body/div/div[2]/form[2]/input"));
     logoutButton.click();
 
-    // wait
+    // Wait for logout to complete
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"loginBtn\"]")));
 
-    // Verify Logout Using Login Button
+    // Verify logout success by checking the presence of the login button
     boolean elementExists;
     try {
       WebElement element = driver.findElement(By.xpath("//*[@id=\"loginBtn\"]"));
@@ -208,7 +229,7 @@ class ExampleSeleniumTest {
    */
   @Test
   public void addBook() {
-    // Login Action
+    // Test to add a book as admin
     WebElement usernameField = driver.findElement(By.id("loginId"));
     WebElement passwordField = driver.findElement(By.id("loginPasswd"));
 
@@ -218,11 +239,11 @@ class ExampleSeleniumTest {
     WebElement loginButton = driver.findElement(By.id("loginBtn"));
     loginButton.click();
 
-    // wait
+    // Wait for login to complete
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"addBook-category\"]")));
 
-    // Add Book Action
+    // Fill in book details
     WebElement categoryField = driver.findElement(By.xpath("//*[@id=\"addBook-category\"]"));
     WebElement bookIdField = driver.findElement(By.xpath("//*[@id=\"addBook-id\"]"));
     WebElement titleField = driver.findElement(By.xpath("//*[@id=\"addBook-title\"]"));
@@ -235,13 +256,14 @@ class ExampleSeleniumTest {
     authorField.sendKeys("Dow Jones");
     costField.sendKeys("10");
 
+    // Click the add button to add the book
     WebElement addButton = driver.findElement(By.xpath("//*[@id=\"addBook-form\"]/button"));
     addButton.click();
 
-    // wait
+    // Wait for the feedback message
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"feedback\"]/h2")));
 
-    // Verify Add Book Action by checking if the success message pops up
+    // Verify the success message
     boolean elementExists;
     try {
       WebElement element = driver.findElement(By.xpath("//*[@id=\"feedback\"]/h2"));
@@ -257,15 +279,18 @@ class ExampleSeleniumTest {
    */
   @Test
   public void testSearchCategoryPositive() {
+    // Test to search for a book category
     driver.get("http://localhost:8080");
     driver.findElement(By.id("search")).sendKeys("Science Fiction");
     driver.findElement(By.id("searchBtn")).click();
 
+    // Wait for the search result
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     WebElement messageElement = wait
         .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[3]/h1")));
     String messageText = messageElement.getText();
 
+    // Verify the search result message
     String expectedMessage = "Sorry we do not have any item matching category 'Science Fiction' at this moment";
     assertEquals(expectedMessage, messageText);
   }
@@ -275,7 +300,7 @@ class ExampleSeleniumTest {
    */
   @Test
   public void testAddBookNegative() {
-    // Login Action
+    // Test to add a book with invalid data
     WebElement usernameField = driver.findElement(By.id("loginId"));
     WebElement passwordField = driver.findElement(By.id("loginPasswd"));
 
@@ -285,11 +310,11 @@ class ExampleSeleniumTest {
     WebElement loginButton = driver.findElement(By.id("loginBtn"));
     loginButton.click();
 
-    // wait
+    // Wait for login to complete
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"addBook-category\"]")));
 
-    // Add Book Action
+    // Fill in invalid book details
     WebElement categoryField = driver.findElement(By.xpath("//*[@id=\"addBook-category\"]"));
     WebElement bookIdField = driver.findElement(By.xpath("//*[@id=\"addBook-id\"]"));
     WebElement titleField = driver.findElement(By.xpath("//*[@id=\"addBook-title\"]"));
@@ -302,32 +327,39 @@ class ExampleSeleniumTest {
     authorField.sendKeys("Dow");
     costField.sendKeys("10");
 
+    // Click the add button to attempt adding the book
     WebElement addButton = driver.findElement(By.xpath("//*[@id=\"addBook-form\"]/button"));
     addButton.click();
 
+    // Wait for the feedback message
     WebElement feedbackElement = wait
         .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"feedback\"]/ul/li")));
     String feedbackMessage = feedbackElement.getText();
 
+    // Verify the feedback message
     assertTrue(feedbackMessage.contains("The Book Id must be between 5 and 8 character long"),
         "Feedback message should indicate invalid Book ID length.");
   }
 
+  /*
+   * Test Order
+   */
   @Test
   public void testOrder() {
+    // Test to place an order
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    // Search book
+    // Search for a book
     driver.get("http://localhost:8080");
     wait.until(ExpectedConditions.elementToBeClickable(By.id("search")));
     driver.findElement(By.id("search")).sendKeys("");
     driver.findElement(By.id("searchBtn")).click();
 
-    // Add book to cart
+    // Add the book to the cart
     WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("order-hall001")));
     addButton.click();
 
-    // Go to cart
+    // Go to the cart
     WebElement cartButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("cartLink")));
     cartButton.click();
 
@@ -345,15 +377,18 @@ class ExampleSeleniumTest {
    */
   @Test
   public void testSearchCategoryNegative() {
+    // Test to search for an unknown book category
     driver.get("http://localhost:8080");
     driver.findElement(By.id("search")).sendKeys("Unknown Category");
     driver.findElement(By.id("searchBtn")).click();
 
+    // Wait for the search result
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     WebElement messageElement = wait
         .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[3]/h1")));
     String messageText = messageElement.getText();
 
+    // Verify the search result message
     String expectedMessage = "Sorry we do not have any item matching category 'Unknown Category' at this moment";
     assertEquals(expectedMessage, messageText);
   }
@@ -363,27 +398,29 @@ class ExampleSeleniumTest {
    */
   @Test
   public void testUpdateOrder() {
+    // Test to update an order
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    // Search book
+    // Search for a book
     driver.get("http://localhost:8080");
     wait.until(ExpectedConditions.elementToBeClickable(By.id("search")));
     driver.findElement(By.id("search")).sendKeys("");
     driver.findElement(By.id("searchBtn")).click();
 
-    // Add book to cart
+    // Add the book to the cart
     WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("order-hall001")));
     addButton.click();
 
-    // Go to cart
+    // Go to the cart
     WebElement cartButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("cartLink")));
     cartButton.click();
 
-    // Update Order
+    // Update the order quantity
     WebElement quantityField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("hall001")));
     quantityField.clear();
     quantityField.sendKeys("2");
 
+    // Click the update button
     WebElement updateButton = driver.findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr/td[4]/button"));
     updateButton.click();
 
@@ -394,5 +431,4 @@ class ExampleSeleniumTest {
     assertEquals(expectedTotalCost, totalCostText,
         "The total cost should be doubled after updating the quantity to 2.");
   }
-
 }
