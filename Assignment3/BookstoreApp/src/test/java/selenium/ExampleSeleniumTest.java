@@ -3,6 +3,7 @@ package selenium;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -219,5 +220,66 @@ class ExampleSeleniumTest {
       elementExists = false;
     }
     assertTrue(elementExists, "The element with ID 'feedback' should exist.");
+  }
+
+  /*
+   * Search Book
+   */
+  @Test
+  public void testSearchCategoryPositive() {
+    driver.get("http://localhost:8080");
+    driver.findElement(By.id("search")).sendKeys("Science Fiction");
+    driver.findElement(By.id("searchBtn")).click();
+
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebElement messageElement = wait
+        .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div[3]/h1")));
+    String messageText = messageElement.getText();
+
+    String expectedMessage = "Sorry we do not have any item matching category 'Science Fiction' at this moment";
+    assertEquals(expectedMessage, messageText);
+  }
+
+  /*
+   * Add Book Negative
+   */
+  @Test
+  public void testAddBookNegative() {
+    // Login Action
+    WebElement usernameField = driver.findElement(By.id("loginId"));
+    WebElement passwordField = driver.findElement(By.id("loginPasswd"));
+
+    usernameField.sendKeys(username);
+    passwordField.sendKeys(password);
+
+    WebElement loginButton = driver.findElement(By.id("loginBtn"));
+    loginButton.click();
+
+    // wait
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"addBook-category\"]")));
+
+    // Add Book Action
+    WebElement categoryField = driver.findElement(By.xpath("//*[@id=\"addBook-category\"]"));
+    WebElement bookIdField = driver.findElement(By.xpath("//*[@id=\"addBook-id\"]"));
+    WebElement titleField = driver.findElement(By.xpath("//*[@id=\"addBook-title\"]"));
+    WebElement authorField = driver.findElement(By.xpath("//*[@id=\"addBook-authors\"]"));
+    WebElement costField = driver.findElement(By.xpath("//*[@id=\"cost\"]"));
+
+    categoryField.sendKeys("SCI");
+    bookIdField.sendKeys("1234");
+    titleField.sendKeys("Science");
+    authorField.sendKeys("Dow");
+    costField.sendKeys("10");
+
+    WebElement addButton = driver.findElement(By.xpath("//*[@id=\"addBook-form\"]/button"));
+    addButton.click();
+
+    WebElement feedbackElement = wait
+        .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"feedback\"]/ul/li")));
+    String feedbackMessage = feedbackElement.getText();
+
+    assertTrue(feedbackMessage.contains("The Book Id must be between 5 and 8 character long"),
+        "Feedback message should indicate invalid Book ID length.");
   }
 }
